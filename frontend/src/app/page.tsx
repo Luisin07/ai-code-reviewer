@@ -27,6 +27,7 @@ interface HistoryItem {
   result: ReviewResponse;
   timestamp: Date;
   codeSnippet: string;
+  code: string;
 }
 
 const SCORE_COLOR = (score: number) =>
@@ -47,13 +48,14 @@ export default function Home() {
     try {
       const data = await reviewCode({ code, language });
       const newItem: HistoryItem = {
-        id: Date.now().toString(),
-        language,
-        score: data.quality_score,
-        result: data,
-        timestamp: new Date(),
-        codeSnippet: code.slice(0, 60) + (code.length > 60 ? "..." : ""),
-      };
+  id: Date.now().toString(),
+  language,
+  score: data.quality_score,
+  result: data,
+  timestamp: new Date(),
+  codeSnippet: code.slice(0, 60) + (code.length > 60 ? "..." : ""),
+  code: code,
+};
       setHistory((prev) => [newItem, ...prev].slice(0, 10));
       setActiveTab(newItem.id);
     } catch (e: unknown) {
@@ -224,7 +226,7 @@ export default function Home() {
                     {activeResult.codeSnippet}
                   </p>
                 </div>
-                <ReviewResults result={activeResult.result} />
+                <ReviewResults result={activeResult.result} originalCode={activeResult.code} language={activeResult.language} />
               </div>
             )}
           </div>

@@ -3,6 +3,7 @@
 import { ReviewResponse } from "@/lib/api";
 import { ScoreRing } from "./ScoreRing";
 import { DiffViewer } from "./DiffViewer";
+import { ExportButton } from "./ExportButton";
 import { Bug, Lightbulb, Shield, ChevronRight } from "lucide-react";
 
 interface Props {
@@ -53,7 +54,10 @@ export function ReviewResults({ result, originalCode, language }: Props) {
           <h2 className="text-xl font-bold text-[#e2e2f0]">Review Complete</h2>
           <p className="text-sm text-[#8888aa] mt-1">{result.summary}</p>
         </div>
-        <ScoreRing score={result.quality_score} />
+        <div className="flex items-center gap-4">
+          <ExportButton result={result} language={language} originalCode={originalCode} />
+          <ScoreRing score={result.quality_score} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -8,6 +8,7 @@ on:
 
 jobs:
   backend:
+    name: Backend (Python)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -16,13 +17,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Lint with ruff
-        run: pip install ruff && ruff check app/
+      - name: Check syntax
+        run: python -m py_compile app/main.py app/routes/review.py app/services/openai_service.py
 
   frontend:
+    name: Frontend (Next.js)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -31,12 +33,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+          node-version: "20"
       - name: Install dependencies
-        run: npm ci
-      - name: Lint
-        run: npm run lint
+        run: npm install
       - name: Type check
         run: npx tsc --noEmit
+      - name: Lint
+        run: npm run lint

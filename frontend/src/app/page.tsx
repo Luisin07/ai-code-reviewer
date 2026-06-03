@@ -12,12 +12,14 @@ const LANGUAGES = [
   { value: "javascript", label: "JavaScript" },
   { value: "typescript", label: "TypeScript" },
   { value: "python", label: "Python" },
+  { value: "php", label: "PHP" },
 ];
 
 const PLACEHOLDER: Record<string, string> = {
   javascript: `function fetchUser(id) {\n  var data = null;\n  fetch('/api/users/' + id).then(function(res) {\n    data = res.json();\n  });\n  return data;\n}`,
   typescript: `async function getUser(id: string) {\n  const res = await fetch(\`/api/users/\${id}\`);\n  const data = await res.json();\n  return data;\n}`,
   python: `def get_user(user_id):\n    import sqlite3\n    conn = sqlite3.connect('db.sqlite')\n    cursor = conn.cursor()\n    query = "SELECT * FROM users WHERE id = " + str(user_id)\n    cursor.execute(query)\n    return cursor.fetchone()`,
+  php: `<?php\nfunction getUser($userId) {\n    $conn = mysql_connect('localhost', 'root', '');\n    mysql_select_db('myapp');\n    $query = "SELECT * FROM users WHERE id = " . $userId;\n    $result = mysql_query($query);\n    return mysql_fetch_array($result);\n}\n?>`,
 };
 
 interface HistoryItem {
